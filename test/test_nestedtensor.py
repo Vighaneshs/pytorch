@@ -57,7 +57,6 @@ from torch.testing._internal.common_utils import (
     parametrize,
     run_tests,
     serialTest,
-    skipIfRocm,
     skipIfSlowGradcheckEnv,
     skipIfTorchDynamo,
     subtest,
@@ -7318,8 +7317,6 @@ torch.cuda.synchronize()
     @skipIfTorchDynamo("SDPA test compiles internally")
     @skipCUDAIf(not SM70OrLater, "GPU capability is < SM70")
     @onlyCUDA
-    # efficient_attention_forward meta kernel shape mismatch on CDNA - see issue #171568
-    @skipIfRocm
     @dtypes(
         *(
             [torch.float16, torch.bfloat16, torch.float32]
@@ -7350,8 +7347,6 @@ torch.cuda.synchronize()
     )
     @skipCUDAIf(not SM70OrLater, "GPU capability is < SM70")
     @onlyCUDA
-    # flash_attention_forward meta kernel shape mismatch on CDNA - see issue #171568
-    @skipIfRocm
     @skipIfTorchDynamo()
     def test_sdpa_autocast(self, device):
         def fn_nt(values32, values16, offsets):
@@ -7854,8 +7849,6 @@ torch.cuda.synchronize()
 
     @dtypes(torch.float32)
     @skipIfTorchDynamo("Test compiles internally")
-    # efficient_attention_forward meta kernel shape mismatch on CDNA - see issue #171568
-    @skipIfRocm
     @skipCUDAIf(not SM70OrLater, "GPU capability is < SM70")
     def test_compile_preserves_metadata_cache(self, device, dtype):
         # shape (B, *, D)

@@ -30,7 +30,6 @@ from torch.testing._internal.common_fsdp import (
 )
 from torch.testing._internal.common_utils import (
     run_tests,
-    skipIfRocmVersionLessThan,
     TEST_HPU,
 )
 
@@ -93,7 +92,6 @@ class TestFullyShardMixedPrecisionTraining(FSDPTest):
             use_shard_placement_fn_vals.append(True)
         return use_shard_placement_fn_vals
 
-    @skipIfRocmVersionLessThan((7, 0))
     @skip_if_lt_x_gpu(2)
     @requires_nccl_version((2, 10), "Need NCCL 2.10+ for bf16 collectives")
     def test_compute_dtype(self):
@@ -173,7 +171,6 @@ class TestFullyShardMixedPrecisionTraining(FSDPTest):
             self.assertEqual(fsdp_loss, ref_loss)
             check_sharded_parity(self, ref_model, model)
 
-    @skipIfRocmVersionLessThan((7, 0))
     @skip_if_lt_x_gpu(2)
     @requires_nccl_version((2, 10), "Need NCCL 2.10+ for bf16 collectives")
     def test_reduce_dtype(self):
